@@ -4,7 +4,6 @@ import Head from 'next/head';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 export default function Signup() {
-    const [id, setId] = useState('');
     const [nick, setNick] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -22,7 +21,6 @@ export default function Signup() {
             return setTermError(true);
         }
     };
-    const onChangeId = (e) => { setId(e.target.value); console.log("onChangeId"); console.log(e.target.value); };
     const onChangeNick = (e) => { setNick(e.target.value); console.log("onChangeNick"); console.log(e.target.value); };
     const onChangePassword = (e) => { setPassword(e.target.value) };
     
@@ -34,6 +32,16 @@ export default function Signup() {
         setTermError(false);
         setTerm(e.target.checked); 
     };
+
+    const useInput = (initValue = null) => {
+        const [value, setter] = useState(initValue);
+        const handler = (e) => {
+            setter(e.target.value);
+        }
+        return [value, handler];
+    }
+
+    const [id, onChangeId] = useInput('');
 
     return (
         <>
