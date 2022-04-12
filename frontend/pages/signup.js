@@ -1,5 +1,23 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, memo } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+
+/*
+    pure Component 역할을 할 수 있도록 memo를 적용시킴
+    memo가 적용돼서 전체가 리렌더링 되더라도 자식 컴포넌트들은 리렌더링이 안됨 
+*/
+const TextInput = memo(({ value, onChange }) => {
+    return (
+        <Form.Item
+            label="Username"
+            name="user-id"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+            onChange={onChange}
+            value={value}
+        >
+            <Input />
+        </Form.Item>
+    )
+});
 
 export default function Signup() {
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -60,15 +78,7 @@ export default function Signup() {
             onFinish={onFinish}
         >
             <div>
-            <Form.Item
-                label="Username"
-                name="user-id"
-                rules={[{ required: true, message: 'Please input your username!' }]}
-                onChange={onChangeId}
-                value={id}
-            >
-                <Input />
-            </Form.Item>
+            <TextInput value={id} onChange={onChangeId} />
             <Form.Item
                 label="Nickname"
                 name="user-nick"
