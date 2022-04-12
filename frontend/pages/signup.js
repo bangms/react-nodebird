@@ -9,13 +9,32 @@ export default function Signup() {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [term, setTerm] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [termError, setTermError] = useState(false);
 
-    const onSubmit = () => {};
-    const onChangeId = (e) => { setId(e.target.value) };
-    const onChangeNick = (e) => { setNick(e.target.value) };
+    const onFinish = (values) => {
+        e.preventDefault();
+        console.log('Received values of form: ', values);
+        if(password !== passwordCheck) {
+            return setPasswordError(true);
+        }
+        if(!term) {
+            return setTermError(true);
+        }
+    };
+    const onChangeId = (e) => { setId(e.target.value); console.log("onChangeId"); console.log(e.target.value); };
+    const onChangeNick = (e) => { setNick(e.target.value); console.log("onChangeNick"); console.log(e.target.value); };
     const onChangePassword = (e) => { setPassword(e.target.value) };
-    const onChangePasswordCheck = (e) => { setPasswordCheck(e.target.value) };
-    const onChangeTrem = () => { setTerm() };
+    
+    const onChangePasswordCheck = (e) => {
+        setPasswordError(e.target.value !== password);
+        setPasswordCheck(e.target.value); 
+    };
+    const onChangeTerm = (e) => { 
+        setTermError(false);
+        setTerm(e.target.checked); 
+    };
+
     return (
         <>
         <Head>
@@ -30,7 +49,7 @@ export default function Signup() {
                     "width":"500px",
                     "margin":"0 auto"
                 }}
-                onSubmit={onSubmit}
+                onFinish={onFinish}
             >
                 <div>
                 <Form.Item
@@ -68,9 +87,17 @@ export default function Signup() {
                     value={passwordCheck}
                 >
                     <Input.Password />
+                    {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다!</div>}
                 </Form.Item>
-                <Form.Item name="user-term" valuePropName="term" wrapperCol={{ offset: 8, span: 16 }} onChange={onChangeTrem} value={term}>
+                <Form.Item 
+                    name="user-term" 
+                    valuePropName="term" 
+                    wrapperCol={{ offset: 8, span: 16 }} 
+                    onChange={onChangeTerm}
+                    checked={term} 
+                >
                     <Checkbox>Agree</Checkbox>
+                    {termError && <div style={{ color: 'red' }}>약관에 동의하셔야 합니다!</div>}
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" htmlType="submit">
