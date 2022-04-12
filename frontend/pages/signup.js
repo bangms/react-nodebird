@@ -1,6 +1,4 @@
 import { useState, useCallback } from 'react';
-import AppLayout from "../components/AppLayout";
-import Head from 'next/head';
 import { Form, Input, Button, Checkbox } from 'antd';
 
 export default function Signup() {
@@ -36,7 +34,7 @@ export default function Signup() {
             return setTermError(true);
         }
     }, [password, passwordCheck, term]);
-    // state들도 dependency array에 담아주어야 함
+    // 함수 내부에서 쓰는 state들을 dependency array에 담아주어야 함
 
     const onChangePasswordCheck = useCallback((e) => {
         setPasswordError(e.target.value !== password);
@@ -52,76 +50,70 @@ export default function Signup() {
 
     return (
         <>
-        <Head>
-            <title>NodeBird</title>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css"/>
-        </Head>
-        <AppLayout>
-            <Form
-                name="basic"
-                layout="vertical"
-                style={{
-                    "width":"500px",
-                    "margin":"0 auto"
-                }}
-                onFinish={onFinish}
+        <Form
+            name="basic"
+            layout="vertical"
+            style={{
+                "width":"500px",
+                "margin":"0 auto"
+            }}
+            onFinish={onFinish}
+        >
+            <div>
+            <Form.Item
+                label="Username"
+                name="user-id"
+                rules={[{ required: true, message: 'Please input your username!' }]}
+                onChange={onChangeId}
+                value={id}
             >
-                <div>
-                <Form.Item
-                    label="Username"
-                    name="user-id"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                    onChange={onChangeId}
-                    value={id}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Nickname"
-                    name="user-nick"
-                    rules={[{ required: true, message: 'Please input your Nickname!' }]}
-                    onChange={onChangeNick}
-                    value={nick}
-                >
-                    <Input />
-                </Form.Item>
-                <Form.Item
-                    label="Password"
-                    name="user-password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
-                    onChange={onChangePassword}
-                    value={password}
-                >
-                    <Input.Password />
-                </Form.Item>
-                <Form.Item
-                    label="Password Check"
-                    name="user-password-chk"
-                    rules={[{ required: true, message: 'Please input your password check!' }]}
-                    onChange={onChangePasswordCheck}
-                    value={passwordCheck}
-                >
-                    <Input.Password />
-                    {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다!</div>}
-                </Form.Item>
-                <Form.Item 
-                    name="user-term" 
-                    valuePropName="term" 
-                    wrapperCol={{ offset: 8, span: 16 }} 
-                    onChange={onChangeTerm}
-                    checked={term} 
-                >
-                    <Checkbox>Agree</Checkbox>
-                    {termError && <div style={{ color: 'red' }}>약관에 동의하셔야 합니다!</div>}
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                    Submit
-                    </Button>
-                </Form.Item>
-                </div>
-            </Form>
-        </AppLayout>
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="Nickname"
+                name="user-nick"
+                rules={[{ required: true, message: 'Please input your Nickname!' }]}
+                onChange={onChangeNick}
+                value={nick}
+            >
+                <Input />
+            </Form.Item>
+            <Form.Item
+                label="Password"
+                name="user-password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+                onChange={onChangePassword}
+                value={password}
+            >
+                <Input.Password />
+            </Form.Item>
+            <Form.Item
+                label="Password Check"
+                name="user-password-chk"
+                rules={[{ required: true, message: 'Please input your password check!' }]}
+                onChange={onChangePasswordCheck}
+                value={passwordCheck}
+            >
+                <Input.Password />
+                {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다!</div>}
+            </Form.Item>
+            <Form.Item 
+                name="user-term" 
+                valuePropName="term" 
+                wrapperCol={{ offset: 8, span: 16 }} 
+                onChange={onChangeTerm}
+                checked={term} 
+            >
+                <Checkbox>Agree</Checkbox>
+                {termError && <div style={{ color: 'red' }}>약관에 동의하셔야 합니다!</div>}
+            </Form.Item>
+            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                <Button type="primary" htmlType="submit">
+                Submit
+                </Button>
+            </Form.Item>
+            </div>
+        </Form>
         </>
     )
 }
