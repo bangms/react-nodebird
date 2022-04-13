@@ -1,5 +1,7 @@
 import { Menu, Input, Button } from 'antd';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
+
 const { Search } = Input;
 
 export default function AppLayout({children}) {
@@ -16,4 +18,8 @@ export default function AppLayout({children}) {
             {children}
         </>
     )
+}
+
+AppLayout.PropTypes = {
+    children: PropTypes.node,
 }
