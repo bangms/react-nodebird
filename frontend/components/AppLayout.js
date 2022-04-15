@@ -1,13 +1,15 @@
-import { Menu, Input, Button, Row, Col, Card, Avatar } from 'antd';
+import { Menu, Input, Button, Row, Col, Card, Avatar, Form } from 'antd';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import LoginForm from './LoginForm';
 
 const { Search } = Input;
 const dummy = {
-    nickname: '제로초',
+    nickname: '묘식',
     Post: [],
     Followings: [],
-    Followers: []
+    Followers: [],
+    isLoggedIn: false,
 }
 
 export default function AppLayout({children}) {
@@ -20,10 +22,10 @@ export default function AppLayout({children}) {
                     <Search enterButton style={{ verticalAlign: 'middle' }} />
                 </Menu.Item>
             </Menu>
-            <Link href="/signup"><a><Button>회원가입</Button></a></Link>
-            <Row>
+            <Row style={{ padding: '20px'}}>
                 <Col xs={24} md={6}>
-                    <Card
+                    {dummy.isLoggedIn 
+                    ? <Card
                         actions={[
                             <div key="twit">짹짹<br />{dummy.Post.length}</div>,
                             <div key="following">팔로잉<br />{dummy.Followings.length}</div>,
@@ -35,13 +37,18 @@ export default function AppLayout({children}) {
                             title={dummy.nickname}
                         />
                     </Card>
+                    : <LoginForm/>}
                 </Col>
-                <Col xs={24} md={12}>
+                <Col xs={24} md={12} style={{ padding: '20px'}}>
                     {children}
                 </Col>
-                <Col xs={24} md={6}>세번째</Col>
+                <Col xs={24} md={6}>
+
+                </Col>
             </Row>
-            {children}
+            {/* <div style={{ padding: '20px'}}>
+                {children}
+            </div> */}
         </>
     )
 }
